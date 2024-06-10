@@ -7,6 +7,11 @@ declare namespace App {
 	// interface Error {}
 	// interface Platform {}
 
+	interface Route {
+		name: string;
+		path: string;
+	};
+
 	interface Card {
 		items: TroopCard[];
 		supportItems: TowerCard[];

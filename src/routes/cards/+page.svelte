@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { fetchCardsData } from '../api';
+	import MdiTriangleSmallUp from '~icons/mdi/triangle-small-up';
 
 	let cards: App.Card;
 	let troopCards: App.TroopCard[] = [];
@@ -9,10 +10,10 @@
 
 	let costs: number[] = Array.from({ length: 10 }, (_, i) => i + 1);
 	let selectedCost: number | null = null;
-	let rarities: string[] = ['common', 'rare', 'epic', 'legendary', 'champion'];
+	let rarities: string[] = ['Common', 'Rare', 'Epic', 'Legendary', 'Champion'];
 	let selectedRarity: string | null = null;
 	let cardSortingOptions: App.SortingOptions[] = [
-		{ name: 'Default', key: 'default' },
+		// { name: 'Default', key: 'default' },
 		{ name: 'Name', key: 'name' },
 		{ name: 'Elixir Cost', key: 'elixirCost' },
 		{ name: 'Rarity', key: 'rarity' }
@@ -40,17 +41,19 @@
 		troopCards = allTroopCards.filter((card) => {
 			return (
 				(selectedCost === null || card?.elixirCost === selectedCost) &&
-				(selectedRarity === null || card?.rarity === selectedRarity)
+				(selectedRarity === null || card?.rarity === selectedRarity.toLowerCase())
 			);
 		});
 	}
 
-	function filterCardsByElixirCost(cost: number) {
+	function filterCardsByElixirCost(event: Event) {
+		const cost: number = Number((event.target as HTMLSelectElement).value);
 		selectedCost = cost;
 		filterCards();
 	}
 
-	function filterCardsByRarity(rarity: string) {
+	function filterCardsByRarity(event: Event) {
+		const rarity: string = (event.target as HTMLSelectElement).value;
 		selectedRarity = rarity;
 		filterCards();
 	}
@@ -99,52 +102,62 @@
 	}
 </script>
 
-<div class="container p-4">
-	<h1>Cards</h1>
+<div class="container p-2 flex flex-col gap-4 mx-auto my-0">
+	<div class="flex gap-2 items-center flex-wrap">
+		<span>Rarity</span>
+		<select
+			bind:value={selectedCost}
+			class="select w-1/3"
+			on:change={(event) => {
+				filterCardsByElixirCost(event);
+			}}
+		>
+			{#each costs as cost}
+				<option value={cost}>{cost}</option>
+			{/each}
+		</select>
+		<span>Cost</span>
+		<select
+			bind:value={selectedRarity}
+			class="select w-1/3"
+			on:change={(event) => {
+				filterCardsByRarity(event);
+			}}
+		>
+			{#each rarities as rarity}
+				<option value={rarity}>{rarity}</option>
+			{/each}
+		</select>
 
-	<!-- <pre>{JSON.stringify(cards, null, 2)}</pre> -->
-	<div>
-		{#each costs as cost}
-			<button
-				on:click={() => filterCardsByElixirCost(cost)}
-				class:variant-ringed-primary={cost === selectedCost}
-				type="button"
-				class="btn btn-sm variant-ringed"
-			>
-				{cost}
-			</button>
-		{/each}
+		<button
+			on:click={() => resetFilters()}
+			type="button"
+			class="btn btn-sm variant-ringed self-end ml-auto"
+		>
+			Reset Filters
+		</button>
 	</div>
 
-	<div>
-		{#each rarities as rarity}
-			<button
-				on:click={() => filterCardsByRarity(rarity)}
-				class:variant-ringed-primary={rarity === selectedRarity}
-				type="button"
-				class="btn btn-sm variant-ringed"
-			>
-				{rarity}
+	<div class="flex gap-2 items-center flex-wrap">
+		<span>Showing {troopCards.length} cards</span>
+
+		<div class="self-end ml-auto flex gap-2">
+			<button on:click={handleSortingTypeClick} type="button" class="btn btn-sm variant-ringed p-0">
+				{#if ascending}
+					<MdiTriangleSmallUp class="h-8 w-8 ease-in-out" />
+				{:else}
+					<MdiTriangleSmallUp class="rotate-180 h-8 w-8 ease-in-out" />
+				{/if}
 			</button>
-		{/each}
+			<button on:click={handleSortingClick} type="button" class="btn btn-sm variant-ringed">
+				{cardSortingOptions[currentSortingIndex].name}
+			</button>
+		</div>
 	</div>
 
-	<button on:click={handleSortingClick} type="button" class="btn btn-sm variant-ringed">
-		{cardSortingOptions[currentSortingIndex].name}
-	</button>
-
-	<button on:click={handleSortingTypeClick} type="button" class="btn btn-sm variant-ringed">
-		{ascending ? 'Ascending' : 'Descending'} Order
-	</button>
-
-	<button on:click={() => resetFilters()} type="button" class="btn btn-sm variant-ringed">
-		Reset Filters
-	</button>
-
-	<div>Showing cards: {troopCards.length}</div>
-	<div class="grid grid-cols-3 gap-1">
+	<div class="grid custom-grid-columns gap-1">
 		{#each troopCards as card}
-			<div class="card p-2 w-32 variant-ghost relative hover:brightness-125">
+			<div class="card p-2 variant-ghost relative hover:brightness-125">
 				<p class="text-xl font-bold absolute top-9 left-3 z-[1]">
 					{card?.elixirCost ? card?.elixirCost : '?'}
 				</p>
@@ -210,3 +223,9 @@
 		height: 10rem;
 	}
 </style> -->
+
+<style>
+	.custom-grid-columns {
+		grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+	}
+</style>

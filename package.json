@@ -2,6 +2,7 @@
   "name": "clash-royale-ui",
   "version": "0.0.1",
   "private": true,
+  "author": "Bhargesh Patel",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
@@ -12,6 +13,7 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
+    "@iconify-json/mdi": "^1.1.66",
     "@skeletonlabs/skeleton": "2.10.0",
     "@skeletonlabs/tw-plugin": "0.4.0",
     "@sveltejs/adapter-auto": "^3.0.0",
@@ -36,6 +38,7 @@
     "tslib": "^2.4.1",
     "typescript": "^5.0.0",
     "typescript-eslint": "^8.0.0-alpha.20",
+    "unplugin-icons": "^0.19.0",
     "vite": "^5.0.3",
     "vite-plugin-tailwind-purgecss": "0.3.3"
   },
