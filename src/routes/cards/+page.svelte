@@ -8,7 +8,7 @@
 	let towerCards: App.TowerCard[] = [];
 	let allTroopCards: App.TroopCard[] = [];
 
-	let costs: number[] = Array.from({ length: 10 }, (_, i) => i + 1);
+	let costs: number[] = Array.from({ length: 9 }, (_, i) => i + 1);
 	let selectedCost: number | null = null;
 	let rarities: string[] = ['Common', 'Rare', 'Epic', 'Legendary', 'Champion'];
 	let selectedRarity: string | null = null;
@@ -24,13 +24,13 @@
 	onMount(async () => {
 		try {
 			cards = await fetchCardsData();
-			console.log(cards);
+			// console.log(cards);
 			troopCards = await cards?.items;
-			console.log(troopCards);
+			// console.log(troopCards);
 			allTroopCards = troopCards;
-			console.log(allTroopCards);
+			// console.log(allTroopCards);
 			towerCards = await cards?.supportItems;
-			console.log(towerCards);
+			// console.log(towerCards);
 			sortCards('default');
 		} catch (error) {
 			console.error(error);
@@ -104,7 +104,7 @@
 
 <div class="container p-2 flex flex-col gap-4 mx-auto my-0">
 	<div class="flex gap-2 items-center flex-wrap">
-		<span>Rarity</span>
+		<span>Cost</span>
 		<select
 			bind:value={selectedCost}
 			class="select w-1/3"
@@ -116,7 +116,7 @@
 				<option value={cost}>{cost}</option>
 			{/each}
 		</select>
-		<span>Cost</span>
+		<span>Rarity</span>
 		<select
 			bind:value={selectedRarity}
 			class="select w-1/3"
@@ -156,73 +156,31 @@
 	</div>
 
 	<div class="grid custom-grid-columns gap-1">
-		{#each troopCards as card}
-			<div class="card p-2 variant-ghost relative hover:brightness-125">
-				<p class="text-xl font-bold absolute top-9 left-3 z-[1]">
-					{card?.elixirCost ? card?.elixirCost : '?'}
-				</p>
-				<img class="h-8 absolute top-8 left-1" src="/elixirdrop.png" alt="elixir cost" />
-				<img
-					class="h-40 object-contain"
-					src={card?.iconUrls?.evolutionMedium
-						? card?.iconUrls?.evolutionMedium
-						: card?.iconUrls?.medium}
-					alt={card?.name}
-					on:error={(event) => handleImageLoadingError(event, card)}
-				/>
-				<p class="text-center">{card?.name}</p>
-			</div>
-		{/each}
+		{#if troopCards.length > 0}
+			{#each troopCards as card}
+				<div class="card p-2 variant-ghost relative hover:brightness-125">
+					<p class="text-xl font-bold absolute top-9 left-3 z-[1]">
+						{card?.elixirCost ? card?.elixirCost : '?'}
+					</p>
+					<img class="h-8 absolute top-8 left-1" src="/elixir-drop.png" alt="elixir cost" />
+					<img
+						class="h-40 object-contain"
+						src={card?.iconUrls?.evolutionMedium
+							? card?.iconUrls?.evolutionMedium
+							: card?.iconUrls?.medium}
+						alt={card?.name}
+						on:error={(event) => handleImageLoadingError(event, card)}
+					/>
+					<p class="text-center">{card?.name}</p>
+				</div>
+			{/each}
+		{:else}
+			{#each costs as cost}
+				<div class="placeholder animate-pulse min-h-40"></div>
+			{/each}
+		{/if}
 	</div>
 </div>
-
-<!-- <style>
-	.selected {
-		background-color: blue;
-		color: white;
-	}
-
-	.cardsContianer {
-		max-width: 100dvw;
-		padding: 1rem;
-
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
-		justify-items: center;
-		gap: 1rem;
-	}
-
-	.cardInfo {
-		position: relative;
-		max-width: 10rem;
-
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 1rem;
-	}
-
-	.elixirCost {
-		position: absolute;
-		left: 1px;
-		top: 17px;
-		z-index: 1;
-		color: white;
-		font-size: 1.6rem;
-		font-weight: 600;
-	}
-
-	.elixirCostIcon {
-		height: 2.5rem;
-		position: absolute;
-		left: -0.5rem;
-		top: 1.5rem;
-	}
-
-	.cardImage {
-		height: 10rem;
-	}
-</style> -->
 
 <style>
 	.custom-grid-columns {

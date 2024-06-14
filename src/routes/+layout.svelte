@@ -1,7 +1,11 @@
 <script lang="ts">
 	import '../app.postcss';
 	import { AppBar } from '@skeletonlabs/skeleton';
+	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
+	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+	import { storePopup } from '@skeletonlabs/skeleton';
+	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 	const routes: App.Route[] = [
 		{ name: 'Home', path: '/' },
@@ -19,12 +23,14 @@
 	<header class="flex flex-col">
 		<AppBar>
 			<svelte:fragment slot="lead">
-				<strong class="text-xl uppercase">Clash</strong>
+				<strong class="text-xl">ClashSpy</strong>
 			</svelte:fragment>
 			<svelte:fragment slot="default"></svelte:fragment>
-			<svelte:fragment slot="trail"></svelte:fragment>
-			<svelte:fragment slot="headline"
-				><nav class="flex space-x-4">
+			<svelte:fragment slot="trail">
+				<LightSwitch />
+			</svelte:fragment>
+			<svelte:fragment slot="headline">
+				<nav class="flex space-x-4">
 					{#each routes as route}
 						<a
 							href={route.path}

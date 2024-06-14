@@ -18,15 +18,31 @@ export async function fetchCardsData(): Promise<App.Card> {
 	return await response.json() as App.Card;
 }
 
-export async function fetchPlayersData(playerTag: string): Promise<Player> {
+export async function fetchPlayersData(playerTag: string): Promise<any> {
 	const response = await fetch(`/api/players/%23${playerTag}`);
 	if (!response.ok) {
 		throw new Error('Failed to fetch data');
 	}
-	return await response.json() as Player;
+	return await response.json() as any;
 }
 
-export async function fetchClansData(clanTag: string): Promise<Clan> {
+export async function fetchPlayersBattleLog(playerTag: string): Promise<any> {
+	const response = await fetch(`/api/players/%23${playerTag}/battlelog`);
+	if (!response.ok) {
+		throw new Error('Failed to fetch data');
+	}
+	return await response.json() as any;
+}
+
+export async function fetchPlayersUpcomingChests(playerTag: string): Promise<any> {
+	const response = await fetch(`/api/players/%23${playerTag}/upcomingchests`);
+	if (!response.ok) {
+		throw new Error('Failed to fetch data');
+	}
+	return await response.json() as any;
+}
+
+export async function fetchClansData(clanTag: string): Promise<any> {
 	const response = await fetch(`/api/clans/%23${clanTag}`);
 	if (!response.ok) {
 		throw new Error('Failed to fetch data');
