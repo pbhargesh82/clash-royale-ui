@@ -43,6 +43,7 @@ export async function fetchPlayersUpcomingChests(playerTag: string): Promise<any
 }
 
 export async function fetchClansData(clanTag: string): Promise<any> {
+	console.log(`/api/clans/%23${clanTag}`);
 	const response = await fetch(`/api/clans/%23${clanTag}`);
 	if (!response.ok) {
 		throw new Error('Failed to fetch data');
