@@ -155,7 +155,7 @@
 		</div>
 	</div>
 
-	<div class="grid custom-grid-columns gap-1">
+	<div class="grid custom-grid-columns gap-1 justify-items-center">
 		{#if troopCards.length > 0}
 			{#each troopCards as card}
 				<div class="card p-2 variant-ghost relative hover:brightness-125">
