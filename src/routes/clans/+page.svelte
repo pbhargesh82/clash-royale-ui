@@ -35,7 +35,7 @@
 	async function fetchClanData() {
 		console.log(searchQuery);
 		if (searchQuery) {
-			clanData = await fetchClansData(searchQuery);
+			clanData = await fetchClansData(searchQuery.toUpperCase());
 			console.log(clanData);
 		}
 	}
