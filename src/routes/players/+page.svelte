@@ -182,13 +182,15 @@
 									<p>{playerData?.progress?.['goblin-road']?.arena?.name}</p>
 								</div>
 							</div>
-							<button
-								class="flex gap-2 items-center"
-								on:click={() => goToClan(playerData?.clan?.tag)}
-							>
-								<img class="h-8" src="/social.png" alt="social" />
-								<p>{playerData?.clan?.name} | {playerData?.role}</p>
-							</button>
+							{#if playerData.clan}
+								<button
+									class="flex gap-2 items-center"
+									on:click={() => goToClan(playerData?.clan?.tag)}
+								>
+									<img class="h-8" src="/social.png" alt="social" />
+									<p>{playerData?.clan?.name} | {playerData?.role}</p>
+								</button>
+							{/if}
 						</div>
 
 						<!-- <p>Achievement Badges</p>
