@@ -103,7 +103,7 @@
 </script>
 
 <div class="container p-2 flex flex-col gap-4 mx-auto my-0">
-	<div class="flex gap-2 items-center flex-wrap">
+	<div class="flex gap-2 items-center flex-wrap mb-4">
 		<span>Cost</span>
 		<select
 			bind:value={selectedCost}
