@@ -539,6 +539,8 @@
 								{/if}
 							{/each}
 						</div>
+					{:else}
+						<h1 class="grid place-items-center">No battles found recently.</h1>
 					{/if}
 				{:else if tabSet === 2}
 					{#if playerData?.cards}
