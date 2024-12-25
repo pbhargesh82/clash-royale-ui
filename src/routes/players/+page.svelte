@@ -171,16 +171,18 @@
 									<!-- <img class="h-4" src="/arena.png" alt="arena" /> -->
 									<p>{playerData?.arena?.name}</p>
 								</div>
-								<div class="flex gap-2 items-center">
-									<img class="h-6" src="/goblin-trophy.png" alt="goblin-trophy" />
-									<p>
-										{playerData?.progress?.['goblin-road']?.trophies} / {playerData?.progress?.[
-											'goblin-road'
-										]?.bestTrophies}
-									</p>
-									<!-- <img class="h-4" src="/arena.png" alt="arena" /> -->
-									<p>{playerData?.progress?.['goblin-road']?.arena?.name}</p>
-								</div>
+								{#if playerData?.progress?.['goblin-road']}
+									<div class="flex gap-2 items-center">
+										<img class="h-6" src="/goblin-trophy.png" alt="goblin-trophy" />
+										<p>
+											{playerData?.progress?.['goblin-road']?.trophies}
+											/
+											{playerData?.progress?.['goblin-road']?.bestTrophies}
+										</p>
+										<!-- <img class="h-4" src="/arena.png" alt="arena" /> -->
+										<p>{playerData?.progress?.['goblin-road']?.arena?.name}</p>
+									</div>
+								{/if}
 							</div>
 							{#if playerData.clan}
 								<button
